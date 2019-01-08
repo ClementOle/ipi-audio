@@ -25,6 +25,7 @@ public class AlbumService {
 		if (album == null) {
 			throw new EntityNotFoundException("L'id : " + id + " ne correspond à aucun album");
 		}
+
 		albumRepository.delete(id);
 	}
 }

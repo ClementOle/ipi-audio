@@ -16,6 +16,11 @@ public class ArtistController {
 	@Autowired
 	ArtistService artistService;
 
+	@RequestMapping(value = "/count", method = RequestMethod.GET)
+	public long countArtist() {
+		return artistService.countArtist();
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
 	public Artist findArtist(@PathVariable(name = "id") int id) {
 		return artistService.findArtist(id);

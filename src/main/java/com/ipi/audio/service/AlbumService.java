@@ -5,6 +5,8 @@ import com.ipi.audio.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class AlbumService {
 
@@ -12,11 +14,17 @@ public class AlbumService {
 	AlbumRepository albumRepository;
 
 	public Album newAlbum(Album album) {
+		if (album == null) {
+			throw new IllegalArgumentException("Album inconnue");
+		}
 		return albumRepository.save(album);
 	}
 
 	public void delAlbum(int id) {
 		Album album = albumRepository.findOne(id);
+		if (album == null) {
+			throw new EntityNotFoundException("L'id : " + id + " ne correspond à aucun album");
+		}
 		albumRepository.delete(id);
 	}
 }

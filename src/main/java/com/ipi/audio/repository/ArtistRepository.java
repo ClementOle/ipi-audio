@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface ArtistRepository extends PagingAndSortingRepository<Artist, Integer> {
-	Artist findById(int id);
-
 	List<Artist> findByNameContaining(String name);
+
+	Artist findByNameEquals(String name);
 }

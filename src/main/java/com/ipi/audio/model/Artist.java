@@ -1,30 +1,39 @@
 package com.ipi.audio.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Artist {
 	@Id
-	private Integer artistId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ArtistId")
+	private int id;
+	@Column(name = "Name")
 	private String name;
+	@JsonManagedReference
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ArtistId")
+	private List<Album> albums;
 
 	public Artist() {
 	}
 
-	public Artist(Integer artistId, String name) {
-		this.artistId = artistId;
+	public Artist(String name, List<Album> albums) {
 		this.name = name;
+		this.albums = albums;
 	}
 
-	public Integer getArtistId() {
-		return artistId;
+	public int getId() {
+		return id;
 	}
 
-	public void setArtistId(Integer artistId) {
-		this.artistId = artistId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -35,25 +44,35 @@ public class Artist {
 		this.name = name;
 	}
 
+	public List<Album> getAlbums() {
+		return albums;
+	}
+
+	public void setAlbums(List<Album> albums) {
+		this.albums = albums;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Artist artist = (Artist) o;
-		return Objects.equals(artistId, artist.artistId) &&
-				Objects.equals(name, artist.name);
+		return id == artist.id &&
+				Objects.equals(name, artist.name) &&
+				Objects.equals(albums, artist.albums);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(artistId, name);
+		return Objects.hash(id, name, albums);
 	}
 
 	@Override
 	public String toString() {
 		return "Artist{" +
-				"artistId=" + artistId +
+				"id=" + id +
 				", name='" + name + '\'' +
+				", albums=" + albums +
 				'}';
 	}
 }

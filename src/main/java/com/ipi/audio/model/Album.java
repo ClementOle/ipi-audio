@@ -1,34 +1,37 @@
 package com.ipi.audio.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Album {
 	@Id
-	private Integer albumId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "AlbumId")
+	private int id;
 	private String title;
-	@OneToMany
-	private Integer ArtistId;
+	@JsonBackReference
+	@ManyToOne(targetEntity = Artist.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "ArtistId")
+	private Artist artist;
 
 	public Album() {
 	}
 
-	public Album(Integer albumId, String title, Integer artistId) {
-		this.albumId = albumId;
+	public Album(String title, Artist artistId) {
 		this.title = title;
-		ArtistId = artistId;
+		this.artist = artistId;
 	}
 
-	public Integer getAlbumId() {
-		return albumId;
+	public int getId() {
+		return id;
 	}
 
-	public void setAlbumId(Integer albumId) {
-		this.albumId = albumId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -39,12 +42,12 @@ public class Album {
 		this.title = title;
 	}
 
-	public Integer getArtistId() {
-		return ArtistId;
+	public Artist getArtist() {
+		return artist;
 	}
 
-	public void setArtistId(Integer artistId) {
-		ArtistId = artistId;
+	public void setArtist(Artist artist) {
+		this.artist = artist;
 	}
 
 	@Override
@@ -52,22 +55,22 @@ public class Album {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Album album = (Album) o;
-		return Objects.equals(albumId, album.albumId) &&
+		return id == album.id &&
 				Objects.equals(title, album.title) &&
-				Objects.equals(ArtistId, album.ArtistId);
+				Objects.equals(artist, album.artist);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(albumId, title, ArtistId);
+		return Objects.hash(id, title, artist);
 	}
 
 	@Override
 	public String toString() {
 		return "Album{" +
-				"albumId=" + albumId +
+				"id=" + id +
 				", title='" + title + '\'' +
-				", ArtistId=" + ArtistId +
+				", artist=" + artist +
 				'}';
 	}
 }

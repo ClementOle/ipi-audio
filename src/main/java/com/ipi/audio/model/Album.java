@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Album implements Serializable {
+public class Album {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "AlbumId")

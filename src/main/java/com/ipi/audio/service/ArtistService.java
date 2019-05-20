@@ -16,16 +16,16 @@ import java.util.List;
 public class ArtistService {
 
 	@Autowired
-	ArtistRepository artistRepository;
+	private ArtistRepository artistRepository;
 
 	public long countArtist() {
 		return artistRepository.count();
 	}
 
-	public Artist findArtist(int id) {
+	public Artist findArtist(Long id) {
 		Artist artist = artistRepository.findOne(id);
 		if (artist == null) {
-			throw new EntityNotFoundException("L'id : " + id + " ne correspont à aucun arstist");
+			throw new EntityNotFoundException("L'id : " + id + " ne correspont à aucun artist");
 		}
 		return artist;
 	}
@@ -59,7 +59,7 @@ public class ArtistService {
 		return artistRepository.save(artist);
 	}
 
-	public Artist updateArtist(int id, Artist artistModifier) {
+	public Artist updateArtist(Long id, Artist artistModifier) {
 
 		Artist artist = artistRepository.findOne(id);
 		if (artist == null) {
@@ -70,7 +70,7 @@ public class ArtistService {
 		return artistRepository.save(artist);
 	}
 
-	public void deleteArtist(int id) {
+	public void deleteArtist(Long id) {
 		Artist artist = artistRepository.findOne(id);
 		if (artist == null) {
 			throw new EntityNotFoundException("Artiste inconnue");

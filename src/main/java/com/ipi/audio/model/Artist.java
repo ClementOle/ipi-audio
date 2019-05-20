@@ -1,38 +1,42 @@
 package com.ipi.audio.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-public class Artist {
+public class Artist implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ArtistId")
-	private int id;
+	private Long id;
+
 	@Column(name = "Name")
 	private String name;
-	@JsonManagedReference
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ArtistId")
-	private List<Album> albums;
+
+	@JsonIgnoreProperties("artist")
+	@OneToMany(mappedBy = "artist")
+	private Set<Album> albums;
 
 	public Artist() {
 	}
 
-	public Artist(String name, List<Album> albums) {
+	public Artist(String name) {
 		this.name = name;
-		this.albums = albums;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -44,11 +48,11 @@ public class Artist {
 		this.name = name;
 	}
 
-	public List<Album> getAlbums() {
+	public Set<Album> getAlbums() {
 		return albums;
 	}
 
-	public void setAlbums(List<Album> albums) {
+	public void setAlbums(Set<Album> albums) {
 		this.albums = albums;
 	}
 

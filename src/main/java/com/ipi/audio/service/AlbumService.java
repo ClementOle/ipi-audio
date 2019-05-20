@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 public class AlbumService {
 
 	@Autowired
-	AlbumRepository albumRepository;
+	private AlbumRepository albumRepository;
 
 	public Album newAlbum(Album album) {
 		if (album == null) {
@@ -20,12 +20,13 @@ public class AlbumService {
 		return albumRepository.save(album);
 	}
 
-	public void delAlbum(int id) {
+	public void delAlbum(Long id) {
 		Album album = albumRepository.findOne(id);
 		if (album == null) {
 			throw new EntityNotFoundException("L'id : " + id + " ne correspond à aucun album");
 		}
-
 		albumRepository.delete(id);
 	}
+
+
 }

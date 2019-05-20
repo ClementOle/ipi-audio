@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/albums")
 public class AlbumController {
 	@Autowired
-	AlbumService albumService;
+	private AlbumService albumService;
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public Album newAlbum(@RequestBody Album album) {
@@ -19,7 +19,7 @@ public class AlbumController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void delAlbum(@PathVariable(value = "id") int id) {
+	public void delAlbum(@PathVariable(value = "id") Long id) {
 		albumService.delAlbum(id);
 	}
 

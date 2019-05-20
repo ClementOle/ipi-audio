@@ -1,22 +1,24 @@
 package com.ipi.audio.model;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Album {
+public class Album implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "AlbumId")
-	private int id;
+	private Long id;
+
+	@Column(name = "Title")
 	private String title;
-	@JsonBackReference
-	@ManyToOne(targetEntity = Artist.class, fetch = FetchType.EAGER)
+
+	@ManyToOne
 	@JoinColumn(name = "ArtistId")
 	private Artist artist;
+
 
 	public Album() {
 	}
@@ -26,11 +28,11 @@ public class Album {
 		this.artist = artistId;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -53,16 +55,11 @@ public class Album {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (!(o instanceof Album)) return false;
 		Album album = (Album) o;
-		return id == album.id &&
+		return Objects.equals(id, album.id) &&
 				Objects.equals(title, album.title) &&
 				Objects.equals(artist, album.artist);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, title, artist);
 	}
 
 	@Override
@@ -73,4 +70,10 @@ public class Album {
 				", artist=" + artist +
 				'}';
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, title, artist);
+	}
+
 }

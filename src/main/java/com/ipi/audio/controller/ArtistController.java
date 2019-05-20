@@ -14,7 +14,7 @@ import java.util.List;
 public class ArtistController {
 
 	@Autowired
-	ArtistService artistService;
+	private ArtistService artistService;
 
 	@RequestMapping(value = "/count", method = RequestMethod.GET)
 	public long countArtist() {
@@ -22,7 +22,7 @@ public class ArtistController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Artist findArtist(@PathVariable(name = "id") int id) {
+	public Artist findArtist(@PathVariable(name = "id") Long id) {
 		return artistService.findArtist(id);
 	}
 
@@ -32,7 +32,7 @@ public class ArtistController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Page<Artist> findAllEmploye(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "10") int size, @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection, @RequestParam(value = "sortProperty", defaultValue = "name") String sortProperty) {
+	public Page<Artist> findAllArtist(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "10") int size, @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection, @RequestParam(value = "sortProperty", defaultValue = "name") String sortProperty) {
 		return artistService.pagingArtist(page, size, sortProperty, sortDirection);
 	}
 
@@ -42,13 +42,13 @@ public class ArtistController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public Artist modifyArtist(@PathVariable(value = "id") int id, @RequestBody Artist artist) {
+	public Artist modifyArtist(@PathVariable(value = "id") Long id, @RequestBody Artist artist) {
 		return artistService.updateArtist(id, artist);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteArtist(@PathVariable(value = "id") int id) {
+	public void deleteArtist(@PathVariable(value = "id") Long id) {
 		artistService.deleteArtist(id);
 	}
 }
